@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class ExercisesImpl implements Exercises {
     @Override
@@ -22,13 +23,14 @@ public class ExercisesImpl implements Exercises {
 
     @Override
     public boolean isEqual(Object o, Object o1) {
-        return o.hashCode()==o1.hashCode();
+        return o.equals(o1);//o.hashCode()==o1.hashCode();
       //  return false;
     }
 
     @Override
     public boolean isSameObject(Object o, Object o1) {
-        return o.equals(o1);
+
+        return o.hashCode()==o1.hashCode();//o.equals(o1);
     }
 
     @Override
@@ -63,7 +65,11 @@ public class ExercisesImpl implements Exercises {
 
     @Override
     public List<Integer> computeNumbersUpTo(int number) {
-        return null;
+        List<Integer> list = new ArrayList<>();
+        for(int i =1; i<number; i++){
+           list.add(i);
+        }
+        return list;
     }
 
     @Override
@@ -73,11 +79,18 @@ public class ExercisesImpl implements Exercises {
 
     @Override
     public IntegerGenerator createIntegerGenerator(int i, int i1) {
-        return null;
+        IntegerGeneratorImpl generator = new IntegerGeneratorImpl();
+        generator.getNext(i,i1);
+        return generator;
     }
 
     @Override
     public IntegerGenerator createFilteredIntegerGenerator(IntegerGenerator integerGenerator, NumberFilter numberFilter) {
-        return null;
+
+//int i = integerGenerator.getNext();
+if(numberFilter.accept(integerGenerator.getNext())){
+    return integerGenerator;
+}
+return null;
     }
 }
