@@ -2,48 +2,54 @@ package numbers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import lt.itakademija.exam.IntegerGenerator;
 import lt.itakademija.exam.NumberFilter;
 
 public class IntegerGeneratorImpl implements IntegerGenerator {
 
-	private List<Integer> list;
-	private int min;
-	private int max;
-	private int index;
+	private List<Integer> list;// = new ArrayList<>();
+	private int index;// = 0;
 
 	public IntegerGeneratorImpl(int min, int max) {
-		super();
-		this.min = min;
-		this.max = max;
+		list = new ArrayList<>();
 		index = 0;
-		list = IntStream.rangeClosed(min - 1, max).boxed().collect(Collectors.toList());
+
+		for (int i = min; i <= max; i++) {
+			list.add(i);
+		}
+
+		// list = IntStream.rangeClosed(min - 1,
+		// max).boxed().collect(Collectors.toList());
+
+	}
+
+	public IntegerGeneratorImpl(IntegerGenerator integerGenerator, NumberFilter numberFilter) {
+		list = new ArrayList<>();
+		index = 0;
+		while (true) {
+			try {
+				int integer = integerGenerator.getNext();
+
+				if (numberFilter.accept(integer)) {
+					list.add(integer);
+				}
+
+			} catch (Exception e) {
+				break;
+			}
+
+		}
 
 	}
 
 	@Override
 	public Integer getNext() {
-		// return null;
-		Integer value = null;
-		if (index < list.size()) {
-			value = list.get(index);
-			index++;
-		}
-		return value;
-	}
 
-	public Integer filterGetNext(NumberFilter numberFilter) {
-		List<Integer> tempList = new ArrayList();
-		for (Integer integer : list) {
-			if (numberFilter.accept(integer)) {
-				tempList.add(integer);
-			}
+		if (index >= list.size()) {
+			return null;
 		}
-		list = tempList;
-		return getNext();
+		return list.get(index++);
 
 	}
 

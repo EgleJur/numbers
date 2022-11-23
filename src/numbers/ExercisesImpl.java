@@ -87,17 +87,17 @@ public class ExercisesImpl implements Exercises {
 	@Override
 	public IntegerGenerator createIntegerGenerator(int i, int i1) {
 		IntegerGeneratorImpl generator = new IntegerGeneratorImpl(i, i1);
-		generator.getNext();
+
 		return generator;
 	}
 
 	@Override
 	public IntegerGenerator createFilteredIntegerGenerator(IntegerGenerator integerGenerator,
 			NumberFilter numberFilter) {
+		IntegerGeneratorImpl generator = new IntegerGeneratorImpl(integerGenerator, numberFilter);
+		if (generator != null) {
 
-		if (integerGenerator != null) {
-			integerGenerator.getNext();
-			return integerGenerator;
+			return generator;
 		}
 		return null;
 	}
